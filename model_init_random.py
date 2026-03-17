@@ -50,4 +50,4 @@ def client_call(prompt_id: str, prompt: str, model: str, max_tokens: int = 1024,
 
 
 prompt = prompt_generator.generate_prompts(num_prompts=1)[0]
-client_call(prompt_id, prompt, 'jinaai/reader-lm-0.5b')
+client_call(prompt_id, prompt, 'TheBloke/Mistral-7B-Instruct-v0.2-AWQ')
