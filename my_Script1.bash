@@ -6,7 +6,7 @@ T0=$(date +%s.%N)
 
 # Supongamos que tenías 200 llamadas en tu archivo original. 
 # Lanzamos 200 procesos concurrentes pasando su ID (i) y el T0 ($T0)
-for i in {1..256}
+for i in {1..512}
 do
     python3 model_init_random.py $i $T0 &
 done
