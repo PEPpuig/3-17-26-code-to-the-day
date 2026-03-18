@@ -39,7 +39,6 @@ while True:
         lines = resp.text.splitlines()
 
         running = get_value(lines, 'vllm:num_requests_running')
-        # CORRECCIÓN: Nombre de variable coincidente con el que se guarda en el CSV
         Inter_Token_Latency = get_value(lines, 'vllm:inter_token_latency_seconds_sum')/iteration
         kv_perc = get_value(lines, 'vllm:kv_cache_usage_perc')
 
@@ -47,13 +46,9 @@ while True:
         elapsed = current_time - prev_time
 
         if elapsed >= THROUGHPUT_INTERVAL:
-            tokens_total = get_value(lines, 'vllm:e2e_request_latency_seconds_sum')
+            e2e_latency_sum = get_value(lines, 'vllm:e2e_request_latency_seconds_sum')
             if prev_tokens > 0:
-                throughput_total = (tokens_total - prev_tokens) / elapsed + prev_throughput
-                e2e_latency = (throughput_total) / iteration
-            prev_tokens = tokens_total
-            prev_time = current_time
-            prev_throughput = throughput_total
+                e2e_latency = (e2e_latency_sum) / iteration
             iteration = iteration + 1
 
         t_rel = round(time.time() - start_time, 2)
