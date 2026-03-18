@@ -25,29 +25,22 @@ def main():
         print(f"Error: No se encontró el archivo {CSV_FILE}")
         return
 
-    # --- NUEVO: Ordenar por tiempo de inicio (starts) ---
-    # Al poner 'starts' en primer lugar en el zip, sorted() usará ese valor para ordenar.
-    # Si dos starts son idénticos, desempatará usando prompts_original.
-    datos = sorted(zip(starts, ends, durations, prompts_original))
-    starts, ends, durations, prompts_ordenados = zip(*datos)
+    
+    datos = sorted(zip(starts, duration, ends, prompts_original))
+    starts, duration, ends, prompts_ordenados = zip(*datos)
 
     # Crear la figura
     fig, ax = plt.subplots(figsize=(12, 8))
 
-    # --- NUEVO: Posiciones secuenciales en el eje Y ---
-    # Creamos un array del 0 al N-1 para colocar las barras ordenadamente una debajo de otra
     posiciones_y = range(len(prompts_ordenados))
 
     # Generar colores de la paleta tab20
     cmap = plt.get_cmap('tab20')
     colores = [cmap(i % 20) for i in range(len(prompts_ordenados))]
 
-    # Dibujar las barras usando posiciones_y
     ax.barh(posiciones_y, durations, left=starts, height=0.5, color=colores, 
             edgecolor='black', linewidth=0.5, alpha=0.9)
 
-    # --- NUEVO: Configurar las etiquetas del eje Y ---
-    # Sustituimos los números 0, 1, 2... por "Prompt X" para saber cuál es cuál
     etiquetas_y = [f"P-{pid}" for pid in prompts_ordenados]
     ax.set_yticks(posiciones_y)
     ax.set_yticklabels(etiquetas_y, fontsize=10)
