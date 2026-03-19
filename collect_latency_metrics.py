@@ -6,7 +6,7 @@ import os
 import csv
 
 METRICS_URL = "http://localhost:8000/metrics"
-CSV_FILE = "vllm_metrics.csv"
+CSV_FILE = "vllm_latency_metrics.csv"
 INTERVAL = 0.1
 THROUGHPUT_INTERVAL = 1.0
 
@@ -41,18 +41,12 @@ while True:
         running = get_value(lines, 'vllm:num_requests_running')
         Inter_Token_Latency = get_value(lines, 'vllm:inter_token_latency_seconds_sum')/iteration
         kv_perc = get_value(lines, 'vllm:kv_cache_usage_perc')
-
+        e2e_latency_sum = get_value(lines, 'vllm:e2e_request_latency_seconds_sum')
         current_time = time.time()
-        elapsed = current_time - prev_time
-
-        if elapsed >= THROUGHPUT_INTERVAL:
-            e2e_latency_sum = get_value(lines, 'vllm:e2e_request_latency_seconds_sum')
-            if prev_tokens > 0:
-                e2e_latency = (e2e_latency_sum) / iteration
-            iteration = iteration + 1
-
+        e2e_latency = (e2e_latency_sum) / iteration
         t_rel = round(time.time() - start_time, 2)
-
+        iteration = iteration + 1
+        
         # Guardar en el CSV
         with open(CSV_FILE, mode='a', newline='') as f:
             writer = csv.writer(f)
@@ -61,7 +55,7 @@ while True:
                 round(running, 5),
                 round(Inter_Token_Latency, 5),
                 round(kv_perc, 5),
-                round(e2e_latency, 5)
+                round(e2e_latency_sum, 5)
             ])
 
     except Exception as e:
