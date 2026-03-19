@@ -8,7 +8,7 @@ def main():
     starts = []
     durations = []
     ends = []
-    # Leer y extraer los datos del CSV
+    
     try:
         with open(CSV_FILE, mode='r') as f:
             reader = csv.DictReader(f)
@@ -45,20 +45,16 @@ def main():
     ax.set_yticks(posiciones_y)
     ax.set_yticklabels(etiquetas_y, fontsize=10)
 
-    # Configurar el resto del diseño
     ax.set_xlabel('Tiempo relativo (segundos)', fontsize=12)
     ax.set_ylabel('Prompts', fontsize=12)
     ax.set_title('Tiempos de Procesamiento (Ordenados por Final)', fontsize=14)
     
-    # Invertir el eje Y (para que el que empieza antes quede arriba del todo)
     ax.invert_yaxis()
     
-    # Añadir cuadrícula
     ax.grid(axis='x', linestyle='--', alpha=0.7)
 
     plt.tight_layout()
 
-    # Guardar y mostrar
     output_image = 'gantt_prompts_orden_inicio.png'
     plt.savefig(output_image, dpi=300)
     print(f"Gráfico guardado como '{output_image}'.")
