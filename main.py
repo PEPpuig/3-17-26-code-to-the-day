@@ -1,5 +1,3 @@
-# import prompt_loader
-# import prompt_generator
 import torch
 import subprocess
 
@@ -35,46 +33,9 @@ def init_vllm_eagle( local_api_port: int = 8000, max_num_seqs: str = 128, api_ke
     _vllm_process = subprocess.run(cmd)
 
 
-    # while(True):
-    #     print("")
-    #     sleep(10)
-    #     pass
-    # time.sleep(450)  # Más tiempo para cargar
-    
-    # # Verifica health
-    # try:
-    #     requests.get(f"http://localhost:{local_api_port}/health", timeout=5)
-    # except:
-    #     raise RuntimeError("vLLM server no responde en http://localhost:8000/health")
-    
-    # _client = OpenAI(
-    #     base_url=f"http://localhost:{local_api_port}/v1",
-    #     api_key=api_key
-    # )
-    
-    # def kill_vllm():
-    #     global _vllm_process
-    #     if _vllm_process:
-    #         _vllm_process.terminate()
-    #         _vllm_process.wait()
-    
-    # atexit.register(kill_vllm)
-    # return client_call
-
-
 if __name__ == "__main__":
     #print("hola")
     torch.cuda.empty_cache()
     init_vllm_ngram()
     #init_vllm_eagle()
-
-
-#prompt_dict = {}
-
-
-#prompt_dict = prompt_generator.generate_prompts()
-
-
-#prompt_loader.load_prompt(prompts_dict = prompt_dict, num_prompts = 10, model = "arnir0/Tiny-LLM")
-
 
