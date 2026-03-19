@@ -25,10 +25,10 @@ TASKS = [
 ]
 
 LENGTHS = [
-    "in under 200 words",
-    "around 500 words",
-    "very briefly",
-    "maximum detail",
+    "around 200 words",
+    "around 200 words",
+    "around 200 words",
+    "around 200 words",
 ]
 
 TEMPLATES = [
@@ -63,10 +63,10 @@ TASKS = [
 ]
 
 LENGTHS = [
-    "in under 200 words",
-    "around 500 words",
-    "very briefly",
-    "maximum detail",
+    "around 200 words",
+    "around 200 words",
+    "around 200 words",
+    "around 200 words",
 ]
 
 TEMPLATES = [
