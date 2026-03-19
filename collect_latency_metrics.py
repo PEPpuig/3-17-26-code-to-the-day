@@ -59,7 +59,6 @@ while True:
             ])
 
     except Exception as e:
-        # Imprime el error por pantalla en lugar de fallar silenciosamente
         print(f"Error capturado: {e}")
 
     time.sleep(INTERVAL)
