@@ -17,7 +17,7 @@ if len(sys.argv) < 3:
 prompt_id = sys.argv[1]
 t0 = float(sys.argv[2])
 
-def client_call(prompt_id: str, prompt: str, model: str, max_tokens: int = 1024, local_port: int = 8000, api_key: str = "key123456"):
+def client_call(prompt_id: str, prompt: str, model: str, max_tokens: int = 256, local_port: int = 8000, api_key: str = "key123456"):
     _client = OpenAI(
         base_url=f"http://localhost:{local_port}/v1",
         api_key=api_key
