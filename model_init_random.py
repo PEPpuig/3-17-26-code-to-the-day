@@ -7,9 +7,8 @@ import prompt_generator
 import csv
 import os
 import fcntl
-import sys  # Necesario para capturar los argumentos de Bash
+import sys  
 
-# Leemos el ID del prompt y el tiempo de referencia de los argumentos
 if len(sys.argv) < 3:
     print("Uso: python3 model_init_random.py <prompt_id> <t0>")
     sys.exit(1)
@@ -23,7 +22,6 @@ def client_call(prompt_id: str, prompt: str, model: str, max_tokens: int = 256, 
         api_key=api_key
     )
 
-    # El inicio relativo toma como base el T0 global inyectado por Bash
     start_rel = round(time.time() - t0, 2)
     
     completion = _client.chat.completions.create(
@@ -50,4 +48,4 @@ def client_call(prompt_id: str, prompt: str, model: str, max_tokens: int = 256, 
 
 
 prompt = prompt_generator.generate_prompts(num_prompts=1)[0]
-client_call(prompt_id, prompt, 'TheBloke/Mistral-7B-Instruct-v0.2-AWQ')
+client_call(prompt_id, prompt, "Qwen/Qwen3-8B")
