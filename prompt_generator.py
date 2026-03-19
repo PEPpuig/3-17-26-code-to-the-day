@@ -94,5 +94,3 @@ def generate_prompts(seed: int = None, num_prompts: int = 10) -> dict[int, str]:
 if __name__ == "__main__":
     print(generate_prompts(num_prompts = 4))
 
-
-#print(generate_prompts(num_prompts=1)[0])
