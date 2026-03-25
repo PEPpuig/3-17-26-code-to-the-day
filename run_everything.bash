@@ -2,37 +2,29 @@
 
 source ~/venv/bin/activate
 
-MODEL_NAME="Qwen/Qwen1.5-4B-Chat-AWQ"
-GPU_MEM_UTIL=0.75
-MAX_MODEL_LEN=512
-MAX_NUM_SEQS=8
-OPT_LEVEL=3
-MAX_LOGPROBS=-1
-STREAM_INTERVAL=10
-API_KEY="key123456"
-HOST="0.0.0.0"
-PORT=8000
-
 echo "Iniciando servidor vLLM en segundo plano..."
-vllm serve "$MODEL_NAME" \
-  --gpu-memory-utilization "$GPU_MEM_UTIL" \
-  --max-model-len "$MAX_MODEL_LEN" \
-  --max-num-seqs "$MAX_NUM_SEQS" \
-  --optimization-level "$OPT_LEVEL" \
-  --max-logprobs "$MAX_LOGPROBS" \
-  --stream-interval "$STREAM_INTERVAL" \
-  --api-key "$API_KEY" \
-  --host "$HOST" \
-  --port "$PORT" &
+vllm serve $1 \
+  --gpu-memory-utilization 0.75 \
+  --max-model-len $2 \
+  --max-num-seqs $3 \
+  --optimization-level 3 \
+  --max-logprobs -1 \
+  --stream-interval 10 \
+  --api-key "key123456" \
+  --enable-mfu-metrics \
+  --host 0.0.0.0 \
+  --port 8000 &
 
 VLLM_PID=$!
 
 while ! curl -s http://localhost:8000/health > /dev/null; do
-  sleep 5
+    sleep 5
 done
 
+
+
 python3 vllm_max_metrics.py &
-MAX_METRICS_PID=$!
+
 
 python3 collect_latency_metrics.py &
 LATENCY_PID=$!
@@ -40,22 +32,24 @@ LATENCY_PID=$!
 python3 vllm_collect_metrics_csv.py &
 METRICS_PID=$!
 
-bash my_Script1.bash
 
-kill $LATENCY_PID $METRICS_PID $MAX_METRICS_PID
+bash my_Script1.bash $4
 
-python3 model_params_dump.py \
-  --model "$MODEL_NAME" \
-  --gpu-memory-utilization "$GPU_MEM_UTIL" \
-  --max-model-len "$MAX_MODEL_LEN" \
-  --max-num-seqs "$MAX_NUM_SEQS" \
-  --optimization-level "$OPT_LEVEL" \
-  --max-logprobs "$MAX_LOGPROBS" \
-  --stream-interval "$STREAM_INTERVAL"
+kill $LATENCY_PID $METRICS_PID
 
-python3 latency_graph_gen_from_csv.py
+
 python3 graph_gen_from_csv.py
+python3 latency_graph_gen_from_csv.py
+
+
+
+
+python3 model_params_dump.py
 
 echo "Finalizado"
 
-kill $VLLM_PID $LATENCY_PID $METRICS_PID
+# Matar todos los procesos en segundo plano antes de salir
+kill $VLLM_PID 
+
+
+
