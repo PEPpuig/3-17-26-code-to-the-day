@@ -50,6 +50,3 @@ echo "Finalizado"
 
 # Matar todos los procesos en segundo plano antes de salir
 kill $VLLM_PID 
-
-
-
