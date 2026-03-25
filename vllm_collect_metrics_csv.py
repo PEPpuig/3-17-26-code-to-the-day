@@ -8,7 +8,7 @@ import csv
 METRICS_URL = "http://localhost:8000/metrics"
 CSV_FILE = "vllm_metrics.csv"
 INTERVAL = 0.1
-THROUGHPUT_INTERVAL = 1.0
+THROUGHPUT_INTERVAL = 0.15
 
 start_time = time.time()
 
